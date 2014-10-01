@@ -1,0 +1,30 @@
+{
+  "name": "nodedev",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "Chris Larcombe & Harlan T Wood <code@nodesphere.org> (http://nodesphere.org/)",
+  "engines" : { 
+    "node" : "0.10.31",
+    "npm" : "1.4.25" 
+  },
+  "dependencies": {
+    "coffee-script": "^1.8.0",
+    "express": "^4.9.4",
+    "socket.io": "^1.1.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nodesphere/nodedev.git"
+  },
+  "keywords": [
+    "graph",
+    "node",
+    "edge"
+  ],
+  "bugs": {
+    "url": "https://github.com/nodesphere/nodedev/issues"
+  }
+}

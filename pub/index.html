@@ -1,0 +1,186 @@
+<html>
+
+<head>
+	<link rel="icon" href="icon.ico" type="image/x-icon" /> 
+	<link rel="shortcut icon" href="/ico/favicon.ico" type="image/x-icon" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+	<meta name="mobile-web-app-capable" content="yes">
+	<title>NodeEditor v1.0</title>
+	<style>
+		body
+		{
+			height:100%;
+			background: black;
+		}
+	</style>
+
+	<script type="text/javascript" src="/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="/lib/processing-1.4.1.min.js"></script>
+
+	<script src="http://nodesphere-production.herokuapp.com:80/socket.io/socket.io.js"></script> 
+
+</head>
+
+
+<style>
+	
+	html
+	{
+		margin: 0px;
+		padding: 0px;
+		color: #FFFFFF;
+
+		font-family: Lucida Grande, Trebuchet MS, Helvetica, Arial, sans-serif;
+		font-size: 11pt;
+
+	}
+
+	body
+	{
+		margin: 0px;
+		padding: 0px;
+	}
+	
+	canvas
+	{
+		margin:  0px;
+		padding: 0px;
+		position: fixed;
+	}
+
+
+	.inputBox
+	{
+		color: white;
+		background-color:rgba(100,0,100,0.8);
+		border: 1px solid purple;
+		border-radius: 15px;
+	}
+
+
+	.inputButton
+	{
+		color: #00EBEB;
+		background-color:rgba(50,0,50,0.8);
+		border: 1px solid purple;
+		border-radius: 10px;
+		padding: 5px;
+		font-size: 11pt;
+	}
+
+	.statusBar
+	{
+		color: #555555;
+		font-size: 8pt;
+		visibility: visible;
+		width: 800px;
+		position: absolute;
+		bottom: 12px;
+		right: 10px;
+	}
+
+	.textField
+	{
+		font-size: 10pt;
+		color: white;
+		background: black;
+		border: 2px solid white;
+		font-family: Gill Sans, Lucida Grande, Trebuchet MS, Helvetica, Arial, sans-serif;
+			
+		
+		-moz-border-radius: 11px;
+		-webkit-border-radius: 11px;
+		border-radius: 11px;
+		
+		
+		padding: 4px 7px;
+		outline: 0;
+		-webkit-appearance: none;
+	}
+
+
+</style>
+
+<script type="text/javascript">
+
+	var hostname = "sphere.nodesphere.org";
+	var port = "80";
+
+
+	nlog = function(msg, p1)
+	{
+		if (p1)
+			console.log("NODEDEV", msg, p1);
+		else
+			console.log("NODEDEV", msg);
+	}
+
+	var nodesphere;
+	console.log("Connecting to: "+hostname + " " + port);
+	nodesphere = io('http://' + hostname + ':' + port);
+
+	// On connection to server
+	nodesphere.on('connect', function()
+	{
+		nlog("socket connected");
+		//nodesphere.emit('coupleInteractingPart', "arcannoomap");
+	});
+		
+	// On loss of connection
+	nodesphere.on('disconnect', function()
+	{
+		nlog("socket disconnected");
+	});
+
+	// On receive pack (set of nodes, i.e., holons and links) from server
+	nodesphere.on('receiveNodesphere', function(ns)
+	{
+		//call('receivedArcanMessage', message);
+		// nlog("received:", ns);
+		nlog("received...");
+		receiveNodesphere(JSON.parse(ns));
+	});
+
+
+
+	var getNodesphere = function(address)
+	{
+		address = address || "https://docs.google.com/spreadsheet/ccc?key=0AnVa7rwgRKG2dEtWOEEzOXVIRWo3Tk1VQ3BJcHVkbmc";
+		nlog("requesting:" + ">>>>" + address + "<<<<");
+		nodesphere.emit('getNodesphere', address);
+	}
+
+
+</script>
+
+<body>
+
+
+<canvas id="sketch" class="theCanvas" data-processing-sources="/pde/vis.pde" width="11" height="11" style="outline:none;"></canvas>
+
+
+<div id="addressBar" style="visibility: visible; width: 800px; position: absolute; top: 12px; left: 10px; background: transparent;" align="left">
+	<form style="display:inline;" action="javascript:getNodesphere(document.getElementById('address').value)">				<img src="/img/frequency.png" valign="middle" style="padding-left: 5px; padding-bottom: 2px;">
+		<input id="address" type="text" class="textField" onclick="document.getElementById('address').select()" style="border: 1px solid #800080; height: 20px">
+		<img id="searchIcon" src="" align="top" onClick="javascript:getNodesphere(document.getElementById('address').value)" class="hoverButton" style="margin-top: 2px"></img>				
+		<input type="submit" id="btnRemoveCustomHtmlArea" value="Go" class="button" style="border: 1px solid #008000; visibility: hidden;"/>
+	</form>
+</div>
+
+
+<div id="addressBar" style="visibility: visible; width: 800px; position: absolute; bottom: 12px; left: 10px; background: transparent;" align="left">
+
+</div>
+
+<div id="statusBar" class="statusBar" align="right"></div>	
+
+<script type="text/javascript">
+	document.getElementById('statusBar').innerHTML = hostname;
+
+	jQuery( function() {
+		// on document ready, load default dataset automatically
+		getNodesphere(document.getElementById('address').value);
+	} );
+</script>
+
+</html>

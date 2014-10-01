@@ -1,0 +1,69 @@
+for (var id in dragControl.dragging)
+	{	
+
+		var x1, x2, y1, y2;
+		
+		dhX = dragControl.dragging[id].x;
+		dhY = dragControl.dragging[id].y;
+
+		if (touches && touches.length > 0)
+		{
+			for (var i = 0; i < touches.length; i++)
+			{
+				if (Math.abs(touches[i].offsetX - dhX) < dragControl.dragging[id].s + 20 && Math.abs(touches[i].offsetY - dhY) < dragControl.dragging[id].s  + 20)
+				{
+					dragControl.dragging[id].x = touches[i].offsetX;
+					dragControl.dragging[id].y = touches[i].offsetY;
+
+					if (!x1)
+					{
+						x1 = dragControl.dragging[id].x;
+						y1 = dragControl.dragging[id].y;
+					}
+					else
+					{
+						x2 = dragControl.dragging[id].x;
+						y2 = dragControl.dragging[id].y;
+					}
+				}
+			}
+		}
+
+
+		if (cache.h[id].ty != "string")
+		{
+			if (cache.t[cache.h[id].ty])
+				fill(cache.t[cache.h[id].ty].rgb, 200);
+		}
+		else
+		{
+			fill(100,100,100);
+		}
+
+		var hx, hy;
+
+		if (x2)
+		{
+			dragControl.dragging[id].s = dist(x1, y1, x2, y2);
+			hx = (x1+x2)/2;
+			hy = (y1+y2)/2;
+
+			
+		}
+		else
+		{	
+			hx = dhX;
+			hy = dhY;
+		}
+
+		ellipse(hx, hy, dragControl.dragging[id].s, dragControl.dragging[id].s);
+
+		//var r = dragControl.dragging[id].s / 2;
+		fill(0,0,0);
+
+		textAlign(CENTER);
+		textFont(font, 22);
+		text(cache.h[id].v, hx - 150, hy - 10, 300, 50);
+
+
+	}
