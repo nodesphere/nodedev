@@ -1,5 +1,5 @@
 {
-  "name": "nodedev",
+  "name": "nodedev-processing",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/nodesphere/nodedev.git"
+    "url": "https://github.com/nodesphere/nodedev-processing.git"
   },
   "keywords": [
     "graph",
@@ -25,6 +25,6 @@
     "edge"
   ],
   "bugs": {
-    "url": "https://github.com/nodesphere/nodedev/issues"
+    "url": "https://github.com/nodesphere/nodedev-processing/issues"
   }
 }
